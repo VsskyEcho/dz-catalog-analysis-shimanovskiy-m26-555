@@ -1,4 +1,3 @@
-"""
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
@@ -21,4 +20,31 @@ movies = [
     {"title": "Red Harbor", "year": 2018, "genres": {"action", "thriller"},
      "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
 ]
-"""
+
+import math
+
+
+def average_rating(movies):
+    total_rating = sum(movie['rating'] for movie in movies)
+    return round(total_rating / len(movies)) if movies else 0
+
+#print(average_rating(movies))
+
+def catalog_age_stats(movies, current_year=2026):
+    if not movies:
+        return {'oldest': None, 'newest': None, 'average_age': None}
+    ages = [current_year - movie['year'] for movie in movies]
+    oldest = max(ages)
+    newest = min(ages)
+    average_age = math.ceil(sum(ages) / len(ages))
+    return {'oldest': oldest, 'newest': newest, 'average_age': average_age}
+
+#print(catalog_age_stats(movies))
+
+def duration_in_hours(minutes):
+    hours = minutes // 60
+    remaining_minutes = minutes % 60
+    return f'{hours}h {remaining_minutes}m' if hours else f'{remaining_minutes}m'
+
+#print(duration_in_hours(155))
+
