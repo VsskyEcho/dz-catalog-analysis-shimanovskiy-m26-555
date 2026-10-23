@@ -23,28 +23,111 @@ movies = [
 
 import math
 
-
+# Этап 1
 def average_rating(movies):
+    if not movies:
+        return 0
     total_rating = sum(movie['rating'] for movie in movies)
-    return round(total_rating / len(movies)) if movies else 0
+    return round(total_rating / len(movies), 1)
 
 #print(average_rating(movies))
 
 def catalog_age_stats(movies, current_year=2026):
     if not movies:
-        return {'oldest': None, 'newest': None, 'average_age': None}
+        return (None, None, None)
     ages = [current_year - movie['year'] for movie in movies]
     oldest = max(ages)
     newest = min(ages)
     average_age = math.ceil(sum(ages) / len(ages))
-    return {'oldest': oldest, 'newest': newest, 'average_age': average_age}
+    return (oldest, newest, average_age)
 
 #print(catalog_age_stats(movies))
 
 def duration_in_hours(minutes):
     hours = minutes // 60
     remaining_minutes = minutes % 60
-    return f'{hours}h {remaining_minutes}m' if hours else f'{remaining_minutes}m'
+    return f'{hours}ч {remaining_minutes}м'
 
 #print(duration_in_hours(155))
 
+# Этап 2
+def rating_tier(rating):
+    if rating >= 9:
+        return 'шедевр'
+    elif rating >= 7:
+        return 'хорошо'
+    else:
+        return 'средне' if rating >= 5 else 'слабо'
+
+#rating_tier(6.4)
+
+def decade_label(year):
+    match year:
+        case _ if year > 2020:
+            return 'новые'
+        case _ if 2015 <= year <= 2020:
+            return 'недавние'
+        case _:
+            return 'старые'
+
+#print(decade_label(2018))
+
+# Этап 3
+
+def non_comedy_movies(movies):
+    #non_comedy_list = []
+    print("Фильмы, которые НЕ относятся к жанру 'comedy':")
+    for movie in movies:
+        if 'comedy' in movie['genres']:
+            continue
+        print(f"- {movie['title']}")
+
+#print(non_comedy_movies(movies))
+
+def find_first_masterpiece(movies):
+    print("\nПоиск первого шедевра (> 9.0):")
+    index = 0
+    while index < len(movies):
+        movie = movies[index]
+        if movie["rating"] > 9.0:
+            print(f"Найден шедевр: {movie['title']} (Рейтинг: {movie['rating']})")
+            break
+        index += 1
+    else:
+        print("Шедевров не найдено")
+
+#find_first_masterpiece(movies)
+
+def count_long_movies(movies, threshold=120):
+    count = 0 
+    for movie in movies:
+        if movie['duration_min'] > threshold:
+            count += 1
+    return count
+
+#long_movies_count = count_long_movies(movies, threshold=120)
+#print(f"\nКоличество фильмов длиннее 120 минут: {long_movies_count}")
+
+# Этап 4. Строки
+def normalize_title(title):
+    words = title.split()
+    normalized_words = []
+
+    for word in words:
+        if word:
+            normalized_word = word[0].upper() + word[1:]
+            normalized_words.append(normalized_word)
+    return ' '.join(normalized_words)
+
+def make_slug(title):
+    return title.lower().replace(' ', '-')
+
+def format_report_line(movie):
+    title = normalize_title(movie["title"])
+    sorted_genres = sorted(movie["genres"])
+    readable_duration = duration_in_hours(movie["duration_min"])
+    return (f'"{title}" ({movie["year"]}) — {movie["rating"]}/10, 'f'{readable_duration}, жанры: {", ".join(sorted_genres)}')
+
+#print(normalize_title("silent hours"))
+#print(make_slug("Silent Hours"))
+print(format_report_line(movies[7]))
