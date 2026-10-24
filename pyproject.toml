@@ -1,7 +1,7 @@
 [project]
 name = "dz-catalog-analysis-shimanovskiy-m26-555"
 version = "0.1.0"
-description = "Add your description here"
+description = "Аналитика каталога стримингово сервиса"
 readme = "README.md"
 authors = [
     { name = "VsSky", email = "triplseva@gmail.com" }
