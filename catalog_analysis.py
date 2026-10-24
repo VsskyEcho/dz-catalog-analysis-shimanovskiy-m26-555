@@ -222,7 +222,7 @@ if __name__ == "__main__":
     # В этапе 3 просили вывести все фильмы, которые не относятся к жанру "comedy",
     non_comedy_movies(movies)
     
-    # В этапе 8 просили продемонстрироватьт работу циклом for с вызовом format_report_line
+    # В этапе 8 просили показать работу циклом for с вызовом format_report_line
     for movie in iter_high_rated(movies):
         print(format_report_line(movie))
     
